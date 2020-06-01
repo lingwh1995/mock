@@ -36,12 +36,18 @@ public class PushCollect {
     /**
      * 推送供暖信息数据定时任务
      */
-    @Scheduled(cron = "0/30 * * * * MON-SAT")
-    public void pushCollectScheduleTask() {
+    @Scheduled(cron = "0/20 * * * * MON-SAT")
+    public void pushCollectScheduleTask() throws InterruptedException {
         //启动机器
         this.startDevice();
         //推送供暖数据
-        this.pushCollect();
+        this.pushCollect1();
+        for(int i=0;i<2;i++) {
+            this.pushCollect2("A0002");
+            this.pushCollect2("A0003");
+            Thread.sleep(5000);
+        }
+
         //停止机器
         this.stopDevice();
     }
@@ -50,64 +56,94 @@ public class PushCollect {
      * 启动设备
      * @return 启动设备返回值
      */
-    private ResponseEntity startDevice(){
+    public void startDevice(){
         HttpHeaders headers = new HttpHeaders();
-        //headers.set("Content-Type", "text/json;charset=utf-8");
+        //headers.set("Content-Type","text/json;charset=utf-8");
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         //设备唯一编号
-        params.add("code", MockUtils.getCode());
+        params.add("code", "10019");
         params.add("runStatus","10");
-        params.add("datetime",MockUtils.getCurrentTimeMillis());
-        log.info("参数信息(启动设备):" + params.toSingleValueMap());
+        params.add("datetime","1579483469697");
+        log.info("参数信息(启动设备):" + params.toString());
         //执行远程调用
         HttpEntity httpEntity = new HttpEntity(params, headers);
         ResponseEntity<String> responseEntity = restTemplate.
                 exchange(PUSH_COLLECT_URL,HttpMethod.POST, httpEntity, String.class);
         log.info("响应结果(启动设备):" + responseEntity.toString());
-        return responseEntity;
     }
 
     /**
      * 推送供暖数据
      * @return 推送供暖数据返回值
      */
-    private ResponseEntity pushCollect(){
-        HttpHeaders headers = new HttpHeaders();
-        //headers.set("phone", "1234567");
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        //设备唯一编号
-        params.add("code", MockUtils.getsSyncCode());
-        //保存多个设备信息
-        JSONArray devices = new JSONArray();
-        for(int i=0;i<5;i++){
+    public void pushCollect1() throws InterruptedException {
+        for(int i=0;i<2;i++) {
+            HttpHeaders headers = new HttpHeaders();
+            //headers.set("Content-Type", "text/json;charset=utf-8");
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            //设备唯一编号
+            params.add("code", "10019");
+            //保存多个设备信息
+            JSONArray devices = new JSONArray();
             //模拟设备状态信息
             JSONObject device = new JSONObject();
             //模拟指标编号
-            device.put("indicatorsCode",MockUtils.getIndicatorsCode());
-            device.put("value",MockUtils.getIndicatorsValue());
-            device.put("datetime",MockUtils.getCurrentTimeMillis());
+            //device.put("indicatorsCode",MockUtils.getIndicatorsCode());
+            device.put("indicatorsCode", "A0001");
+            device.put("value", MockUtils.getIndicatorsValue());
+            device.put("datetime", MockUtils.getCurrentTimeMillis());
             devices.add(device);
+            params.add("value", devices.toJSONString());
+            log.info("参数信息(推送供暖数据A0001):" + params.toSingleValueMap());
+            //执行远程调用
+            HttpEntity httpEntity = new HttpEntity(params, headers);
+            ResponseEntity<String> responseEntity = restTemplate.
+                    exchange(PUSH_COLLECT_URL, HttpMethod.POST, httpEntity, String.class);
+            log.info("响应结果(推送供暖数据):" + responseEntity.toString());
+            Thread.sleep(5000);
         }
-        params.add("value",devices.toJSONString());
-        log.info("参数信息(推送供暖数据):" + params.toSingleValueMap());
-        //执行远程调用
-        HttpEntity httpEntity = new HttpEntity(params, headers);
-        ResponseEntity<String> responseEntity = restTemplate.
-                exchange(PUSH_COLLECT_URL,HttpMethod.POST, httpEntity, String.class);
-        log.info("响应结果(推送供暖数据):" + responseEntity.toString());
-        return responseEntity;
+    }
+
+    /**
+     * 推送供暖数据
+     * @return 推送供暖数据返回值
+     */
+    public void pushCollect2(String Code) throws InterruptedException {
+            HttpHeaders headers = new HttpHeaders();
+            //headers.set("Content-Type", "text/json;charset=utf-8");
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            //设备唯一编号
+            params.add("code",  "10019");
+            //保存多个设备信息
+            JSONArray devices = new JSONArray();
+            //模拟设备状态信息
+            JSONObject device = new JSONObject();
+            //模拟指标编号
+            //device.put("indicatorsCode",MockUtils.getIndicatorsCode());
+            device.put("indicatorsCode", Code);
+            device.put("value", MockUtils.getIndicatorsValue());
+            device.put("datetime", MockUtils.getCurrentTimeMillis());
+            devices.add(device);
+            params.add("value", devices.toJSONString());
+            log.info("参数信息(推送供暖数据"+Code+"):" + params.toSingleValueMap());
+            //执行远程调用
+            HttpEntity httpEntity = new HttpEntity(params, headers);
+            ResponseEntity<String> responseEntity = restTemplate.
+                    exchange(PUSH_COLLECT_URL, HttpMethod.POST, httpEntity, String.class);
+            log.info("响应结果(推送供暖数据):" + responseEntity.toString());
+
     }
 
     /**
      * 关闭设备
      * @return 关闭设备返回值
      */
-    private ResponseEntity stopDevice(){
+    public void stopDevice(){
         HttpHeaders headers = new HttpHeaders();
-        //headers.set("phone", "1234567");
+        //headers.set("Content-Type", "text/json;charset=utf-8");
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         //设备唯一编号
-        params.add("code", MockUtils.getsSyncCode());
+        params.add("code", "10019");
         params.add("runStatus","20");
         params.add("datetime",MockUtils.getCurrentTimeMillis());
         log.info("参数信息(关闭设备):" + params.toSingleValueMap());
@@ -116,7 +152,6 @@ public class PushCollect {
         ResponseEntity<String> responseEntity = restTemplate.
                 exchange(PUSH_COLLECT_URL,HttpMethod.POST, httpEntity, String.class);
         log.info("响应结果(关闭设备):" + responseEntity.toString());
-        return responseEntity;
     }
 
 }

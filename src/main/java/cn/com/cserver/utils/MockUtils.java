@@ -43,7 +43,7 @@ public class MockUtils {
      * @return 指标数据
      */
     public static int getIndicatorsValue(){
-        return (int)(Math.random() * 1000);
+        return (int)(Math.random() * 100)+1;
     }
 
     /**
