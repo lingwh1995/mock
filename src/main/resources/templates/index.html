@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>仪表盘</title>
+    <!--引入开源框架-->
+    <script type="text/javascript" th:src="@{/jquery-3.1.1.js}"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}"/>
+</head>
+<body>
+    <div class="container-fluid">
+        <button type="button" class="btn btn-success push">推送供暖数据</button>
+        <button type="button" class="btn btn-danger">查看推送数据</button>
+    </div>
+</body>
+<script>
+    $(function () {
+        $(".container-fluid .push").click(function () {
+            $.ajax({
+                method:'get',
+                url:'/collect/push.action'
+            });
+            alert();
+        });
+    });
+</script>
+</html>

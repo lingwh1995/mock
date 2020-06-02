@@ -37,20 +37,14 @@ public class RestTemplateTest {
 
     @Test
     public void fun1(){
-            HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.setContentLength();
-            headers.set("Content-Type", "application/json;charset=UTF-8");
-            headers.set("Content-Length", "722");
-            headers.set("Host", "localhost");
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            Map<String, String> params = new HashMap<String,String>();
             //设备唯一编号
-            params.add("code", "10019");
-            params.add("runStatus", "10");
-            params.add("datetime", String.valueOf(System.currentTimeMillis()));
+            params.put("code", "10019");
+            params.put("runStatus", "20");
+            params.put("datetime", String.valueOf(System.currentTimeMillis()));
             log.info("参数信息(启动设备):" + params.toString());
             //执行远程调用
-            HttpEntity httpEntity = new HttpEntity(params, headers);
+            HttpEntity httpEntity = new HttpEntity(params);
             ResponseEntity<String> responseEntity = restTemplate.
                     exchange(PUSH_COLLECT_URL, HttpMethod.POST, httpEntity, String.class);
             log.info("响应结果(启动设备):" + responseEntity.toString());
