@@ -6,21 +6,103 @@
     <!--引入开源框架-->
     <script type="text/javascript" th:src="@{/jquery-3.1.1.js}"></script>
     <link rel="stylesheet" th:href="@{/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
 </head>
 <body>
-    <div class="container-fluid">
-        <button type="button" class="btn btn-success push">推送供暖数据</button>
-        <button type="button" class="btn btn-danger">查看推送数据</button>
+    <div class="container">
+        <div style="margin: 20px auto;">
+            <button type="button" class="btn btn-success push">推送供暖数据</button>
+        </div>
+        <form class="form-inline" style="margin: 20px auto;">
+            <div class="form-group">
+                <label for="code">设备唯一编码:</label>
+                <input type="text" class="form-control" id="code" placeholder="">
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group">
+                <label for="start-date">开始推送时间:</label>
+                <input type="text" class="form-control" id="start-date" placeholder="">
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="form-group">
+                <label for="end-date">结束推送时间:</label>
+                <input type="text" class="form-control" id="end-date" placeholder="">
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-danger get">查看推送数据</button>
+        </form>
+<!--        <form class="form-horizontal">-->
+<!--            <div class="form-group">-->
+<!--                <label for="code" class="col-sm-2 control-label">设备唯一编码:</label>-->
+<!--                <div class="col-sm-4">-->
+<!--                    <input type="text" class="form-control" id="code" placeholder="设备唯一编码">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="start-date" class="col-sm-2 control-label">开始推送时间(毫秒值):</label>-->
+<!--                <div class="col-sm-4">-->
+<!--                    <input type="text" class="form-control" id="start-date" placeholder="开始推送时间(毫秒值)">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="end-date" class="col-sm-2 control-label">结束推送时间(毫秒值):</label>-->
+<!--                <div class="col-sm-4">-->
+<!--                    <input type="text" class="form-control" id="end-date" placeholder="结束推送时间(毫秒值)">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--        <div class="container-fluid" style="margin: 20px auto;">-->
+<!--            <button type="button" class="btn btn-success push">推送供暖数据</button>-->
+<!--            <button type="button" class="btn btn-danger">查看推送数据</button>-->
+<!--        </div>-->
+        <div class="jumbotron">
+            <h1>Hello, world!</h1>
+            <p>...</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        </div>
     </div>
 </body>
 <script>
     $(function () {
-        $(".container-fluid .push").click(function () {
+        /**
+         * 推送数据
+         */
+        $('.container .push').click(function () {
+            var loading = layer.load(0,{shade: [0.2,'#FAEBD7'] });
             $.ajax({
                 method:'get',
-                url:'/collect/push.action'
+                url:'/collect/push',
+                success: function (result) {
+                    $('#code').val(result.code);
+                    $('#start-date').val(result.startDate);
+                    $('#end-date').val(result.endDate);
+                }
+            }).done(function () {
+                layer.close(loading);
             });
-            alert();
+
+        });
+
+        /**
+         * 获取推送的数据
+         */
+        $(".container .push").click(function () {
+            var code = $('#code').val();
+            var startDate = $('#start-date').val();
+            var endDate = $('#end-date').val();
+            if(code == '' || startDate == '' || endDate == ''){
+                layer.msg('条件不能为空！');
+                return;
+            }
+            $.ajax({
+                method:'get',
+                url:'/collect/get',
+                success: function (result) {
+                    $('#code').val(result.code);
+                    $('#start-date').val(result.startDate);
+                    $('#end-date').val(result.endDate);
+                }
+            });
         });
     });
 </script>

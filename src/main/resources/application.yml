@@ -18,7 +18,7 @@ url:
   # 获取已推送供暖信息数据url
   getCollect: http://49.233.38.90/api/collect/data/getCollect?ak=ebf556cf95807bbf5c64d572c706107a
 server:
-  port: 8080
+  port: 8081
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
@@ -26,5 +26,5 @@ server:
     encoding: UTF-8
     servlet:
       content-type: text/html
-    static-path-pattern: /static/**
+    static-path-pattern: /static/
 

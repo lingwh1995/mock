@@ -13,18 +13,5 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class,args);
     }
-
-
-//    /**
-//     * 设置匹配*.action后缀请求
-//     * @param dispatcherServlet
-//     * @return
-//     */
-//    @Bean
-//    public ServletRegistrationBean servletRegistrationBean(DispatcherServlet dispatcherServlet) {
-//        ServletRegistrationBean<DispatcherServlet> servletServletRegistrationBean = new ServletRegistrationBean<>(dispatcherServlet);
-//        servletServletRegistrationBean.addUrlMappings("*.action");
-//        return servletServletRegistrationBean;
-//    }
 }
 

@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class PushService implements IPushService {
+public class PushServiceImpl implements IPushService {
 
     /**
      * 推送供暖信息数据远程接口url
