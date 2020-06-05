@@ -8,5 +8,5 @@ public interface IGetService {
      * @param endDate 结束时间
      * @return
      */
-    String getDate(String code,String startDate,String endDate);
+    String getDate(String code,String startDate,String endDate) throws Exception;
 }

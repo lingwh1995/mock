@@ -31,13 +31,14 @@ public class PushServiceImpl implements IPushService {
 
     /**
      * 启动设备
+     * @param equiCode 设备编号
      * @return 启动设备返回值
      */
     @Override
-    public void startDevice(){
+    public void startDevice(String equiCode) throws Exception{
         Map<String, String> params = new HashMap<String,String>();
         //设备唯一编号
-        params.put("code", "10019");
+        params.put("code", equiCode);
         params.put("runStatus","10");
         params.put("datetime",String.valueOf(System.currentTimeMillis()));
         log.info("参数信息(启动设备):" + JSONObject.toJSONString(params));
@@ -50,14 +51,15 @@ public class PushServiceImpl implements IPushService {
 
     /**
      * 推送供暖数据
+     * @param equiCode 设备编号
      * @return 推送供暖数据返回值
      */
     @Override
-    public void pushData1() throws Exception {
+    public void pushData1(String equiCode) throws Exception {
         for(int i=0;i<2;i++) {
             Map<String, Object> params = new HashMap<String,Object>();
             //设备唯一编号
-            params.put("code", "10019");
+            params.put("code", equiCode);
             //保存多个设备信息
             JSONArray devices = new JSONArray();
             //模拟设备状态信息
@@ -79,14 +81,15 @@ public class PushServiceImpl implements IPushService {
 
     /**
      * 推送供暖数据
+     * @param equiCode 设备编号
      * @return 推送供暖数据返回值
      */
     @Override
-    public void pushData2(String code1,String code2) throws Exception {
+    public void pushData2(String equiCode,String code1,String code2) throws Exception {
         for(int i=0;i<2;i++) {
             Map<String, Object> params = new HashMap<String, Object>();
             //设备唯一编号
-            params.put("code", "10019");
+            params.put("code", equiCode);
             //保存多个设备信息
             JSONArray devices = new JSONArray();
             //A0002
@@ -113,13 +116,14 @@ public class PushServiceImpl implements IPushService {
 
     /**
      * 关闭设备
+     * @param equiCode 设备编号
      * @return 关闭设备返回值
      */
     @Override
-    public void stopDevice(){
+    public void stopDevice(String equiCode) throws Exception{
         Map<String, String> params = new HashMap<String,String>();
         //设备唯一编号
-        params.put("code", "10019");
+        params.put("code", equiCode);
         params.put("runStatus","20");
         params.put("datetime",MockUtils.getCurrentTimeMillis());
         log.info("参数信息(关闭设备):" + JSONObject.toJSONString(params));

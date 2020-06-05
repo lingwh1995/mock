@@ -3,6 +3,7 @@ package cn.com.cserver.service;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +20,19 @@ public class GetServiceImpl implements IGetService{
     @Autowired
     private RestTemplate restTemplate;
 
+    /**
+     * 获取推送供暖信息数据远程接口url
+     */
+    @Value("${url.getCollect}")
+    private String GET_COLLECT_URL;
+
     @Override
-    public String getDate(String code, String startDate, String endDate) {
-        Map<String, String> params = new HashMap<String,String>();
-        //设备唯一编号
-        params.put("code", "10019");
-        params.put("runStatus","10");
-        params.put("datetime",String.valueOf(System.currentTimeMillis()));
-        log.info("参数信息(启动设备):" + JSONObject.toJSONString(params));
-        //执行远程调用
-        HttpEntity httpEntity = new HttpEntity(params);
+    public String getDate(String code, String startDate, String endDate) throws Exception{
+        String rmiUrl = GET_COLLECT_URL + "&code="+code + "&startDate=" +startDate
+                + "&endDate=" + endDate;
         ResponseEntity<String> responseEntity = restTemplate.
-                exchange(PUSH_COLLECT_URL, HttpMethod.POST,httpEntity,String.class);
-        log.info("响应结果(启动设备):" + responseEntity.getBody());
-        return null;
+                exchange(rmiUrl, HttpMethod.GET,null,String.class);
+        log.info("响应结果(获取推送数据):" + responseEntity.getBody());
+        return responseEntity.getBody();
     }
 }

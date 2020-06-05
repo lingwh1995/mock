@@ -49,9 +49,4 @@ public class RestTemplateTest {
                     exchange(PUSH_COLLECT_URL, HttpMethod.POST, httpEntity, String.class);
             log.info("响应结果(启动设备):" + responseEntity.toString());
     }
-
-    public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis());
-    }
-
 }
