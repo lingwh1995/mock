@@ -14,8 +14,10 @@ http:
   validateAfterInactivity: 5000
 url:
   # 推送供暖信息数据url
+  #pushCollect: http://49.233.38.90/api/collect/data/pushCollect?ak=ebf556cf95807bbf5c64d572c706107a
   pushCollect: http://49.233.38.90/api/collect/data/pushCollect?ak=ebf556cf95807bbf5c64d572c706107a
   # 获取已推送供暖信息数据url
+  #getCollect: http://49.233.38.90/api/collect/data/getCollect?ak=ebf556cf95807bbf5c64d572c706107a
   getCollect: http://49.233.38.90/api/collect/data/getCollect?ak=ebf556cf95807bbf5c64d572c706107a
 #设备编号
 equiCode: 10019

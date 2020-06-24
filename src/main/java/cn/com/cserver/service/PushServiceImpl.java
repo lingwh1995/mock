@@ -55,7 +55,7 @@ public class PushServiceImpl implements IPushService {
      * @return 推送供暖数据返回值
      */
     @Override
-    public void pushData1(String equiCode) throws Exception {
+    public void pushData1(String equiCode,String code1) throws Exception {
         for(int i=0;i<2;i++) {
             Map<String, Object> params = new HashMap<String,Object>();
             //设备唯一编号
@@ -64,17 +64,17 @@ public class PushServiceImpl implements IPushService {
             JSONArray devices = new JSONArray();
             //模拟设备状态信息
             JSONObject device = new JSONObject();
-            device.put("indicatorsCode", "A0001");
+            device.put("indicatorsCode", code1);
             device.put("value", MockUtils.getIndicatorsValue());
             device.put("datetime", MockUtils.getCurrentTimeMillis());
             devices.add(device);
             params.put("value", devices);
-            log.info("参数信息(推送供暖数据):" + JSONObject.toJSONString(params));
+            log.info("参数信息(第二步:发送单条数据第"+(i+1)+"次):" + JSONObject.toJSONString(params));
             //执行远程调用
             HttpEntity httpEntity = new HttpEntity(params);
             ResponseEntity<String> responseEntity = restTemplate.
                     exchange(PUSH_COLLECT_URL, HttpMethod.POST, httpEntity, String.class);
-            log.info("响应结果(推送供暖数据):" + responseEntity.getBody());
+            log.info("响应结果(第二步:发送单条数据第"+(i+1)+"次):" + responseEntity.getBody());
             Thread.sleep(5000);
         }
     }
@@ -105,12 +105,12 @@ public class PushServiceImpl implements IPushService {
             device2.put("datetime", MockUtils.getCurrentTimeMillis());
             devices.add(device2);
             params.put("value", devices);
-            log.info("参数信息(推送供暖数据):" + JSONObject.toJSONString(params));
+            log.info("参数信息(第三步:发送多条数据第"+(i+1)+"次):" + JSONObject.toJSONString(params));
             //执行远程调用
             HttpEntity httpEntity = new HttpEntity(params);
             ResponseEntity<String> responseEntity = restTemplate.
                     exchange(PUSH_COLLECT_URL, HttpMethod.POST, httpEntity, String.class);
-            log.info("响应结果(推送供暖数据):" + responseEntity.getBody());
+            log.info("响应结果(第三步:发送多条数据第"+(i+1)+"次):" + responseEntity.getBody());
         }
     }
 
@@ -126,11 +126,11 @@ public class PushServiceImpl implements IPushService {
         params.put("code", equiCode);
         params.put("runStatus","20");
         params.put("datetime",MockUtils.getCurrentTimeMillis());
-        log.info("参数信息(关闭设备):" + JSONObject.toJSONString(params));
+        log.info("参数信息(第四步骤:关闭设备):" + JSONObject.toJSONString(params));
         //执行远程调用
         HttpEntity httpEntity = new HttpEntity(params);
         ResponseEntity<String> responseEntity = restTemplate.
                 exchange(PUSH_COLLECT_URL,HttpMethod.POST, httpEntity, String.class);
-        log.info("响应结果(关闭设备):" + responseEntity.getBody());
+        log.info("响应结果(第四步骤:关闭设备):" + responseEntity.getBody());
     }
 }

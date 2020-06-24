@@ -10,8 +10,9 @@ public interface IPushService {
     /**
      * 推送单条数据
      * @param equiCode 设备编号
+     *  @param code1 指标编码1
      */
-    void pushData1(String equiCode) throws Exception;
+    void pushData1(String equiCode,String code1) throws Exception;
 
     /**
      * 推送多条数据
