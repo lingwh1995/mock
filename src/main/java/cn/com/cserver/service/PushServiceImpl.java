@@ -41,12 +41,12 @@ public class PushServiceImpl implements IPushService {
         params.put("code", equiCode);
         params.put("runStatus","10");
         params.put("datetime",String.valueOf(System.currentTimeMillis()));
-        log.info("参数信息(启动设备):" + JSONObject.toJSONString(params));
+        log.info("参数信息(第一步:启动设备):" + JSONObject.toJSONString(params));
         //执行远程调用
         HttpEntity httpEntity = new HttpEntity(params);
         ResponseEntity<String> responseEntity = restTemplate.
                 exchange(PUSH_COLLECT_URL, HttpMethod.POST,httpEntity,String.class);
-        log.info("响应结果(启动设备):" + responseEntity.getBody());
+        log.info("响应结果(第一步:启动设备):" + responseEntity.getBody());
     }
 
     /**
