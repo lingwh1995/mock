@@ -15,12 +15,13 @@ http:
 url:
   # 推送供暖信息数据url
   #pushCollect: http://49.233.38.90/api/collect/data/pushCollect?ak=ebf556cf95807bbf5c64d572c706107a
-  pushCollect: http://49.233.38.90/api/collect/data/pushCollect?ak=ebf556cf95807bbf5c64d572c706107a
+  pushCollect: http://49.233.38.90/api/collect/data/pushCollect?ak=d44419abe8f4e5d41c5ffc830e9acb32
   # 获取已推送供暖信息数据url
   #getCollect: http://49.233.38.90/api/collect/data/getCollect?ak=ebf556cf95807bbf5c64d572c706107a
-  getCollect: http://49.233.38.90/api/collect/data/getCollect?ak=ebf556cf95807bbf5c64d572c706107a
+  getCollect: http://49.233.38.90/api/collect/data/getCollect?ak=d44419abe8f4e5d41c5ffc830e9acb32
+
 #设备编号
-equiCode: 10019
+equiCode: 10006
 server:
   port: 8081
   thymeleaf:

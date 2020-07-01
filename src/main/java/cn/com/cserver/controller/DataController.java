@@ -41,8 +41,8 @@ public class DataController {
         result.put("startDate",String.valueOf(System.currentTimeMillis()));
         log.info("-------------------------开始执行推送数据操作-------------------------");
         pushService.startDevice(equiCode);
-        pushService.pushData1(equiCode,"温度A0001");
-        pushService.pushData2(equiCode,"压力A0002","流量A0003");
+        pushService.pushData1(equiCode,"A0001");
+        pushService.pushData2(equiCode,"A0002","A0003");
         pushService.stopDevice(equiCode);
         log.info("-------------------------结束执行推送数据操作-------------------------");
         result.put("endDate",String.valueOf(System.currentTimeMillis()+500));

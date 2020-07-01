@@ -75,7 +75,9 @@ public class PushServiceImpl implements IPushService {
             ResponseEntity<String> responseEntity = restTemplate.
                     exchange(PUSH_COLLECT_URL, HttpMethod.POST, httpEntity, String.class);
             log.info("响应结果(第二步:发送单条数据第"+(i+1)+"次):" + responseEntity.getBody());
-            Thread.sleep(5000);
+            if(i==0) {
+                Thread.sleep(5000);
+            }
         }
     }
 
@@ -84,33 +86,74 @@ public class PushServiceImpl implements IPushService {
      * @param equiCode 设备编号
      * @return 推送供暖数据返回值
      */
+//    @Override
+//    public void pushData2(String equiCode,String code1,String code2) throws Exception {
+//        for(int i=0;i<2;i++) {
+//            Map<String, Object> params = new HashMap<String, Object>();
+//            //设备唯一编号
+//            params.put("code", equiCode);
+//            //保存多个设备信息
+//            JSONArray devices = new JSONArray();
+//            //A0002
+//            JSONObject device1 = new JSONObject();
+//            device1.put("indicatorsCode", code1);
+//            device1.put("value", MockUtils.getIndicatorsValue());
+//            device1.put("datetime", MockUtils.getCurrentTimeMillis());
+//            devices.add(device1);
+//            //A0003
+//            JSONObject device2 = new JSONObject();
+//            device2.put("indicatorsCode", code2);
+//            device2.put("value", MockUtils.getIndicatorsValue());
+//            device2.put("datetime", MockUtils.getCurrentTimeMillis());
+//            devices.add(device2);
+//            params.put("value", devices);
+//            log.info("参数信息(第三步:发送多条数据第"+(i+1)+"次):" + JSONObject.toJSONString(params));
+//            //执行远程调用
+//            HttpEntity httpEntity = new HttpEntity(params);
+//            ResponseEntity<String> responseEntity = restTemplate.
+//                    exchange(PUSH_COLLECT_URL, HttpMethod.POST, httpEntity, String.class);
+//            log.info("响应结果(第三步:发送多条数据第"+(i+1)+"次):" + responseEntity.getBody());
+//        }
+//    }
+
     @Override
     public void pushData2(String equiCode,String code1,String code2) throws Exception {
         for(int i=0;i<2;i++) {
-            Map<String, Object> params = new HashMap<String, Object>();
+            Map<String, Object> params1 = new HashMap<String, Object>();
             //设备唯一编号
-            params.put("code", equiCode);
+            params1.put("code", equiCode);
             //保存多个设备信息
-            JSONArray devices = new JSONArray();
+            JSONArray devices1 = new JSONArray();
             //A0002
             JSONObject device1 = new JSONObject();
             device1.put("indicatorsCode", code1);
             device1.put("value", MockUtils.getIndicatorsValue());
             device1.put("datetime", MockUtils.getCurrentTimeMillis());
-            devices.add(device1);
+            devices1.add(device1);
+            params1.put("value", devices1);
+            log.info("参数信息(第三步:发送多条数据第"+(i+1)+"次第一条):" + JSONObject.toJSONString(params1));
+            //执行远程调用
+            ResponseEntity<String> responseEntity1 = restTemplate.
+                    exchange(PUSH_COLLECT_URL, HttpMethod.POST, new HttpEntity(params1), String.class);
+            log.info("响应结果(第三步:发送多条数据第"+(i+1)+"次第一条):" + responseEntity1.getBody());
+            Map<String, Object> params2 = new HashMap<String, Object>();
+            params2.put("code", equiCode);
             //A0003
+            JSONArray devices2 = new JSONArray();
             JSONObject device2 = new JSONObject();
             device2.put("indicatorsCode", code2);
             device2.put("value", MockUtils.getIndicatorsValue());
             device2.put("datetime", MockUtils.getCurrentTimeMillis());
-            devices.add(device2);
-            params.put("value", devices);
-            log.info("参数信息(第三步:发送多条数据第"+(i+1)+"次):" + JSONObject.toJSONString(params));
+            devices2.add(device2);
+            params2.put("value", devices2);
+            log.info("参数信息(第三步:发送多条数据第"+(i+1)+"次第二条):" + JSONObject.toJSONString(params2));
             //执行远程调用
-            HttpEntity httpEntity = new HttpEntity(params);
-            ResponseEntity<String> responseEntity = restTemplate.
-                    exchange(PUSH_COLLECT_URL, HttpMethod.POST, httpEntity, String.class);
-            log.info("响应结果(第三步:发送多条数据第"+(i+1)+"次):" + responseEntity.getBody());
+            ResponseEntity<String> responseEntity2 = restTemplate.
+                    exchange(PUSH_COLLECT_URL, HttpMethod.POST, new HttpEntity(params2), String.class);
+            log.info("响应结果(第三步:发送多条数据第"+(i+1)+"次第二条):" + responseEntity2.getBody());
+            if(i==0) {
+                Thread.sleep(5000);
+            }
         }
     }
 
